@@ -1,11 +1,8 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { ProjectContext } from '../context/ProjectContext';
 
 function Home() {
-  // State for projects and new project form
-  const [projects, setProjects] = useState([
-    { id: 1, name: 'Project A', date: '2025-08-23', place: 'Erode' },
-    { id: 2, name: 'Project B', date: '2025-08-20', place: 'Salem' },
-  ]);
+  const { projects, setProjects } = useContext(ProjectContext);
   const [newProject, setNewProject] = useState({ name: '', date: '', place: '' });
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({ name: '', date: '', place: '' });
@@ -104,10 +101,10 @@ function Home() {
           <table className="table table-striped">
             <thead className="table-danger">
               <tr>
-                <th className="bg-danger text-white">Name</th>
-                <th className="bg-danger text-white">Date</th>
-                <th className="bg-danger text-white">Place</th>
-                <th className="bg-danger text-white">Actions</th>
+                <th className="text-white">Name</th>
+                <th className="text-white">Date</th>
+                <th className="text-white">Place</th>
+                <th className="text-white">Actions</th>
               </tr>
             </thead>
             <tbody>

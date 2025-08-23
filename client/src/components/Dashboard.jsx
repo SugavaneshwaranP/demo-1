@@ -1,14 +1,9 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { ProjectContext } from '../context/ProjectContext';
 
 function Dashboard() {
-  // State for selected project
+  const { projects } = useContext(ProjectContext);
   const [selectedProject, setSelectedProject] = useState(null);
-
-  // Sample project data (ideally shared from Home.jsx via Context or props)
-  const projects = [
-    { id: 1, name: 'Project A', date: '2025-08-23', place: 'Erode' },
-    { id: 2, name: 'Project B', date: '2025-08-20', place: 'Salem' },
-  ];
 
   // State for Machinery
   const [machinery, setMachinery] = useState([
@@ -38,6 +33,14 @@ function Dashboard() {
   const [editingMachineryId, setEditingMachineryId] = useState(null);
   const [editMachineryForm, setEditMachineryForm] = useState({});
 
+  // State for Materials
+  const [materials, setMaterials] = useState([
+    { id: 1, projectId: 1, type: 'Sand', quantity: 100, date: '2025-08-23' },
+  ]);
+  const [newMaterial, setNewMaterial] = useState({ type: '', quantity: '', date: '' });
+  const [editingMaterialId, setEditingMaterialId] = useState(null);
+  const [editMaterialForm, setEditMaterialForm] = useState({});
+
   // State for Cement Daily Output
   const [cementOutputs, setCementOutputs] = useState([
     { id: 1, projectId: 1, date: '2025-08-23', quantity: 50, notes: 'Batch 1' },
@@ -54,10 +57,23 @@ function Dashboard() {
   const [editingFuelId, setEditingFuelId] = useState(null);
   const [editFuelForm, setEditFuelForm] = useState({});
 
+  // State for Accounts
+  const [accounts, setAccounts] = useState([
+    { id: 1, projectId: 1, date: '2025-08-23', amount: 1000, description: 'Initial payment' },
+  ]);
+  const [newAccount, setNewAccount] = useState({ date: '', amount: '', description: '' });
+  const [editingAccountId, setEditingAccountId] = useState(null);
+  const [editAccountForm, setEditAccountForm] = useState({});
+
   // Handle input changes
   const handleMachineryInputChange = (e) => {
     const { name, value } = e.target;
     setNewMachinery({ ...newMachinery, [name]: value });
+  };
+
+  const handleMaterialInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewMaterial({ ...newMaterial, [name]: value });
   };
 
   const handleCementInputChange = (e) => {
@@ -70,6 +86,11 @@ function Dashboard() {
     setNewFuelAccount({ ...newFuelAccount, [name]: value });
   };
 
+  const handleAccountInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewAccount({ ...newAccount, [name]: value });
+  };
+
   // Add new entries
   const addMachinery = (e) => {
     e.preventDefault();
@@ -79,6 +100,14 @@ function Dashboard() {
       const workDuration = calculateWorkDuration(start, end);
       setMachinery([...machinery, { id: machinery.length + 1, projectId: selectedProject.id, ...newMachinery, workDuration }]);
       setNewMachinery({ type: '', vehicleName: '', dateOfEntry: '', levels: '', startHours: '', endHours: '', workDuration: '', owner: '' });
+    }
+  };
+
+  const addMaterial = (e) => {
+    e.preventDefault();
+    if (newMaterial.type && newMaterial.quantity && newMaterial.date && selectedProject) {
+      setMaterials([...materials, { id: materials.length + 1, projectId: selectedProject.id, ...newMaterial }]);
+      setNewMaterial({ type: '', quantity: '', date: '' });
     }
   };
 
@@ -98,10 +127,23 @@ function Dashboard() {
     }
   };
 
+  const addAccount = (e) => {
+    e.preventDefault();
+    if (newAccount.date && newAccount.amount && selectedProject) {
+      setAccounts([...accounts, { id: accounts.length + 1, projectId: selectedProject.id, ...newAccount }]);
+      setNewAccount({ date: '', amount: '', description: '' });
+    }
+  };
+
   // Start editing
   const startEditingMachinery = (item) => {
     setEditingMachineryId(item.id);
     setEditMachineryForm({ ...item });
+  };
+
+  const startEditingMaterial = (item) => {
+    setEditingMaterialId(item.id);
+    setEditMaterialForm({ ...item });
   };
 
   const startEditingCement = (item) => {
@@ -114,10 +156,20 @@ function Dashboard() {
     setEditFuelForm({ ...item });
   };
 
+  const startEditingAccount = (item) => {
+    setEditingAccountId(item.id);
+    setEditAccountForm({ ...item });
+  };
+
   // Handle edit form changes
   const handleEditMachineryChange = (e) => {
     const { name, value } = e.target;
     setEditMachineryForm({ ...editMachineryForm, [name]: value });
+  };
+
+  const handleEditMaterialChange = (e) => {
+    const { name, value } = e.target;
+    setEditMaterialForm({ ...editMaterialForm, [name]: value });
   };
 
   const handleEditCementChange = (e) => {
@@ -130,6 +182,11 @@ function Dashboard() {
     setEditFuelForm({ ...editFuelForm, [name]: value });
   };
 
+  const handleEditAccountChange = (e) => {
+    const { name, value } = e.target;
+    setEditAccountForm({ ...editAccountForm, [name]: value });
+  };
+
   // Save edited entries
   const saveMachineryEdit = (id) => {
     const workDuration = calculateWorkDuration(editMachineryForm.startHours, editMachineryForm.endHours);
@@ -139,6 +196,15 @@ function Dashboard() {
       )
     );
     setEditingMachineryId(null);
+  };
+
+  const saveMaterialEdit = (id) => {
+    setMaterials(
+      materials.map((item) =>
+        item.id === id ? { ...item, ...editMaterialForm } : item
+      )
+    );
+    setEditingMaterialId(null);
   };
 
   const saveCementEdit = (id) => {
@@ -159,6 +225,15 @@ function Dashboard() {
     setEditingFuelId(null);
   };
 
+  const saveAccountEdit = (id) => {
+    setAccounts(
+      accounts.map((item) =>
+        item.id === id ? { ...item, ...editAccountForm } : item
+      )
+    );
+    setEditingAccountId(null);
+  };
+
   // Calculate work duration
   const calculateWorkDuration = (start, end) => {
     if (!start || !end) return '';
@@ -171,49 +246,33 @@ function Dashboard() {
   return (
     <div className="container-fluid mt-4">
       <div className="row">
-        {/* Left Sidebar (Offcanvas) */}
+        {/* Left Sidebar (Fixed Column) */}
         <div className="col-md-3">
-          <button
-            className="btn btn-danger mb-3"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#projectSidebar"
-            aria-controls="projectSidebar"
-          >
-            Open Projects
-          </button>
-          <div
-            className="offcanvas offcanvas-start bg-white border-danger"
-            tabIndex="-1"
-            id="projectSidebar"
-            aria-labelledby="projectSidebarLabel"
-          >
-            <div className="offcanvas-header bg-danger">
-              <h5 className="offcanvas-title text-white" id="projectSidebarLabel">
-                Projects
-              </h5>
-              <button
-                type="button"
-                className="btn-close btn-close-white"
-                data-bs-dismiss="offcanvas"
-                aria-label="Close"
-              ></button>
+          <div className="card border-danger h-100">
+            <div className="card-header bg-danger">
+              <h5 className="card-title text-white">Project Details</h5>
             </div>
-            <div className="offcanvas-body">
-              <ul className="list-group">
-                {projects.map((project) => (
-                  <li
-                    key={project.id}
-                    className={`list-group-item ${selectedProject && selectedProject.id === project.id ? 'border-danger' : ''}`}
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => setSelectedProject(project)}
-                  >
-                    <h6 className="mb-1 text-danger">{project.name}</h6>
-                    <small>Date: {project.date}</small><br />
-                    <small>Place: {project.place}</small>
-                  </li>
-                ))}
-              </ul>
+            <div className="card-body bg-white">
+              {projects.length === 0 ? (
+                <div className="alert alert-info" role="alert">
+                  No projects available. Add projects in the Home page.
+                </div>
+              ) : (
+                <ul className="list-group">
+                  {projects.map((project) => (
+                    <li
+                      key={project.id}
+                      className={`list-group-item ${selectedProject && selectedProject.id === project.id ? 'border-danger bg-light' : ''}`}
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => setSelectedProject(project)}
+                    >
+                      <h6 className="mb-1 text-danger fw-bold">{project.name}</h6>
+                      <p className="mb-1"><strong>Date:</strong> {project.date}</p>
+                      <p className="mb-0"><strong>Place:</strong> {project.place}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         </div>
@@ -442,6 +501,131 @@ function Dashboard() {
               </div>
 
               {/* Materials Card */}
+              <div className="col-md-6 mb-4">
+                <div className="card border-danger">
+                  <div className="card-body bg-white">
+                    <h5 className="card-title text-danger">Materials</h5>
+                    <form onSubmit={addMaterial}>
+                      <div className="row g-2">
+                        <div className="col-md-4">
+                          <input
+                            type="text"
+                            className="form-control border-danger"
+                            name="type"
+                            value={newMaterial.type}
+                            onChange={handleMaterialInputChange}
+                            placeholder="Material Type"
+                            required
+                          />
+                        </div>
+                        <div className="col-md-4">
+                          <input
+                            type="number"
+                            className="form-control border-danger"
+                            name="quantity"
+                            value={newMaterial.quantity}
+                            onChange={handleMaterialInputChange}
+                            placeholder="Quantity (Tons)"
+                            required
+                          />
+                        </div>
+                        <div className="col-md-4">
+                          <input
+                            type="date"
+                            className="form-control border-danger"
+                            name="date"
+                            value={newMaterial.date}
+                            onChange={handleMaterialInputChange}
+                            required
+                          />
+                        </div>
+                        <div className="col-md-4">
+                          <button type="submit" className="btn btn-danger">Add</button>
+                        </div>
+                      </div>
+                    </form>
+                    <table className="table table-striped mt-3">
+                      <thead className="table-danger">
+                        <tr>
+                          <th className="text-white">Type</th>
+                          <th className="text-white">Quantity (Tons)</th>
+                          <th className="text-white">Date</th>
+                          <th className="text-white">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {materials
+                          .filter((item) => item.projectId === selectedProject.id)
+                          .map((item) => (
+                            <tr key={item.id}>
+                              {editingMaterialId === item.id ? (
+                                <>
+                                  <td>
+                                    <input
+                                      type="text"
+                                      className="form-control border-danger"
+                                      name="type"
+                                      value={editMaterialForm.type}
+                                      onChange={handleEditMaterialChange}
+                                    />
+                                  </td>
+                                  <td>
+                                    <input
+                                      type="number"
+                                      className="form-control border-danger"
+                                      name="quantity"
+                                      value={editMaterialForm.quantity}
+                                      onChange={handleEditMaterialChange}
+                                    />
+                                  </td>
+                                  <td>
+                                    <input
+                                      type="date"
+                                      className="form-control border-danger"
+                                      name="date"
+                                      value={editMaterialForm.date}
+                                      onChange={handleEditMaterialChange}
+                                    />
+                                  </td>
+                                  <td>
+                                    <button
+                                      className="btn btn-danger btn-sm"
+                                      onClick={() => saveMaterialEdit(item.id)}
+                                    >
+                                      Save
+                                    </button>
+                                    <button
+                                      className="btn btn-outline-danger btn-sm ms-2"
+                                      onClick={() => setEditingMaterialId(null)}
+                                    >
+                                      Cancel
+                                    </button>
+                                  </td>
+                                </>
+                              ) : (
+                                <>
+                                  <td>{item.type}</td>
+                                  <td>{item.quantity}</td>
+                                  <td>{item.date}</td>
+                                  <td>
+                                    <button
+                                      className="btn btn-outline-danger btn-sm"
+                                      onClick={() => startEditingMaterial(item)}
+                                    >
+                                      Edit
+                                    </button>
+                                  </td>
+                                </>
+                              )}
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              {/* Cement Daily Output Card */}
               <div className="col-md-6 mb-4">
                 <div className="card border-danger">
                   <div className="card-body bg-white">
@@ -689,13 +873,126 @@ function Dashboard() {
                 </div>
               </div>
 
-              {/* Accounts Card (Placeholder) */}
+              {/* Accounts Card */}
               <div className="col-md-6 mb-4">
                 <div className="card border-danger">
                   <div className="card-body bg-white">
                     <h5 className="card-title text-danger">Accounts</h5>
-                    <p className="card-text">Manage financial accounts for {selectedProject.name}.</p>
-                    <button className="btn btn-danger">Add Account</button>
+                    <form onSubmit={addAccount}>
+                      <div className="row g-2">
+                        <div className="col-md-4">
+                          <input
+                            type="date"
+                            className="form-control border-danger"
+                            name="date"
+                            value={newAccount.date}
+                            onChange={handleAccountInputChange}
+                            required
+                          />
+                        </div>
+                        <div className="col-md-4">
+                          <input
+                            type="number"
+                            className="form-control border-danger"
+                            name="amount"
+                            value={newAccount.amount}
+                            onChange={handleAccountInputChange}
+                            placeholder="Amount ($)"
+                            required
+                          />
+                        </div>
+                        <div className="col-md-4">
+                          <input
+                            type="text"
+                            className="form-control border-danger"
+                            name="description"
+                            value={newAccount.description}
+                            onChange={handleAccountInputChange}
+                            placeholder="Description"
+                          />
+                        </div>
+                        <div className="col-md-4">
+                          <button type="submit" className="btn btn-danger">Add</button>
+                        </div>
+                      </div>
+                    </form>
+                    <table className="table table-striped mt-3">
+                      <thead className="table-danger">
+                        <tr>
+                          <th className="text-white">Date</th>
+                          <th className="text-white">Amount ($)</th>
+                          <th className="text-white">Description</th>
+                          <th className="text-white">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {accounts
+                          .filter((item) => item.projectId === selectedProject.id)
+                          .map((item) => (
+                            <tr key={item.id}>
+                              {editingAccountId === item.id ? (
+                                <>
+                                  <td>
+                                    <input
+                                      type="date"
+                                      className="form-control border-danger"
+                                      name="date"
+                                      value={editAccountForm.date}
+                                      onChange={handleEditAccountChange}
+                                    />
+                                  </td>
+                                  <td>
+                                    <input
+                                      type="number"
+                                      className="form-control border-danger"
+                                      name="amount"
+                                      value={editAccountForm.amount}
+                                      onChange={handleEditAccountChange}
+                                    />
+                                  </td>
+                                  <td>
+                                    <input
+                                      type="text"
+                                      className="form-control border-danger"
+                                      name="description"
+                                      value={editAccountForm.description}
+                                      onChange={handleEditAccountChange}
+                                    />
+                                  </td>
+                                  <td>
+                                    <button
+                                      className="btn btn-danger btn-sm"
+                                      onClick={() => saveAccountEdit(item.id)}
+                                    >
+                                      Save
+                                    </button>
+                                    <button
+                                      className="btn btn-outline-danger btn-sm ms-2"
+                                      onClick={() => setEditingAccountId(null)}
+                                    >
+                                      Cancel
+                                    </button>
+                                  </td>
+                                </>
+                              ) : (
+                                <>
+                                  <td>{item.date}</td>
+                                  <td>{item.amount}</td>
+                                  <td>{item.description}</td>
+                                  <td>
+                                    <button
+                                      className="btn btn-outline-danger btn-sm"
+                                      onClick={() => startEditingAccount(item)}
+                                    >
+                                      Edit
+                                    </button>
+                                  </td>
+                                </>
+                              )}
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
