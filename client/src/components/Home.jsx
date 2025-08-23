@@ -101,10 +101,10 @@ function Home() {
           <table className="table table-striped">
             <thead className="table-danger">
               <tr>
-                <th className="text-white">Name</th>
-                <th className="text-white">Date</th>
-                <th className="text-white">Place</th>
-                <th className="text-white">Actions</th>
+                <th className="bg-danger text-white">Name</th>
+                <th className="bg-danger text-white">Date</th>
+                <th className="bg-danger text-white">Place</th>
+                <th className="bg-danger text-white">Actions</th>
               </tr>
             </thead>
             <tbody>
