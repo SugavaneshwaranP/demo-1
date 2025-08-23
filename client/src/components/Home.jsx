@@ -3,8 +3,8 @@ import { useState } from 'react';
 function Home() {
   // State for projects and new project form
   const [projects, setProjects] = useState([
-    { id: 1, name: 'Project Alpha', date: '2025-08-23', place: 'Site A' },
-    { id: 2, name: 'Project Beta', date: '2025-08-20', place: 'Site B' },
+    { id: 1, name: 'Project A', date: '2025-08-23', place: 'Erode' },
+    { id: 2, name: 'Project B', date: '2025-08-20', place: 'Salem' },
   ]);
   const [newProject, setNewProject] = useState({ name: '', date: '', place: '' });
   const [editingId, setEditingId] = useState(null);
@@ -48,19 +48,19 @@ function Home() {
   };
 
   return (
-    <div className="mt-4">
-      <h1 className="text-center mb-4">Dew - Project Management</h1>
+    <div className="mt-4 bg-white p-3">
+      <h1 className="text-center mb-4 text-danger">Project Management</h1>
 
       {/* Add New Project Form */}
-      <div className="card mb-4">
-        <div className="card-body">
-          <h5 className="card-title">Add New Project</h5>
+      <div className="card mb-4 border-danger">
+        <div className="card-body bg-white">
+          <h5 className="card-title text-danger">Add New Project</h5>
           <form onSubmit={addProject}>
             <div className="row">
               <div className="col-md-4">
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control border-danger"
                   name="name"
                   value={newProject.name}
                   onChange={handleInputChange}
@@ -71,7 +71,7 @@ function Home() {
               <div className="col-md-4">
                 <input
                   type="date"
-                  className="form-control"
+                  className="form-control border-danger"
                   name="date"
                   value={newProject.date}
                   onChange={handleInputChange}
@@ -81,7 +81,7 @@ function Home() {
               <div className="col-md-4">
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control border-danger"
                   name="place"
                   value={newProject.place}
                   onChange={handleInputChange}
@@ -90,7 +90,7 @@ function Home() {
                 />
               </div>
             </div>
-            <button type="submit" className="btn btn-primary mt-3">
+            <button type="submit" className="btn btn-danger mt-3">
               Add Project
             </button>
           </form>
@@ -98,16 +98,16 @@ function Home() {
       </div>
 
       {/* Project List */}
-      <div className="card">
-        <div className="card-body">
-          <h5 className="card-title">Projects</h5>
+      <div className="card border-danger">
+        <div className="card-body bg-white">
+          <h5 className="card-title text-danger">Projects</h5>
           <table className="table table-striped">
-            <thead>
+            <thead className="table-danger">
               <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Place</th>
-                <th>Actions</th>
+                <th className="bg-danger text-white">Name</th>
+                <th className="bg-danger text-white">Date</th>
+                <th className="bg-danger text-white">Place</th>
+                <th className="bg-danger text-white">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -118,7 +118,7 @@ function Home() {
                       <td>
                         <input
                           type="text"
-                          className="form-control"
+                          className="form-control border-danger"
                           name="name"
                           value={editForm.name}
                           onChange={handleEditChange}
@@ -127,7 +127,7 @@ function Home() {
                       <td>
                         <input
                           type="date"
-                          className="form-control"
+                          className="form-control border-danger"
                           name="date"
                           value={editForm.date}
                           onChange={handleEditChange}
@@ -136,7 +136,7 @@ function Home() {
                       <td>
                         <input
                           type="text"
-                          className="form-control"
+                          className="form-control border-danger"
                           name="place"
                           value={editForm.place}
                           onChange={handleEditChange}
@@ -144,13 +144,13 @@ function Home() {
                       </td>
                       <td>
                         <button
-                          className="btn btn-success btn-sm"
+                          className="btn btn-danger btn-sm"
                           onClick={() => saveEdit(project.id)}
                         >
                           Save
                         </button>
                         <button
-                          className="btn btn-secondary btn-sm ms-2"
+                          className="btn btn-outline-danger btn-sm ms-2"
                           onClick={() => setEditingId(null)}
                         >
                           Cancel
@@ -164,7 +164,7 @@ function Home() {
                       <td>{project.place}</td>
                       <td>
                         <button
-                          className="btn btn-warning btn-sm"
+                          className="btn btn-outline-danger btn-sm"
                           onClick={() => startEditing(project)}
                         >
                           Edit

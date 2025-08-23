@@ -1,0 +1,85 @@
+body {
+  background-color: #FFFFFF; /* White background */
+  color: #333333; /* Dark text for readability */
+}
+
+.navbar {
+  background-color: #DC3545 !important; /* Red navbar */
+}
+
+.navbar-brand, .nav-link {
+  color: #FFFFFF !important; /* White text for navbar */
+}
+
+.navbar-brand:hover, .nav-link:hover {
+  color: #F8D7DA !important; /* Light red on hover */
+}
+
+.card {
+  border: 1px solid #DC3545; /* Red border for cards */
+  background-color: #FFFFFF; /* White card background */
+}
+
+.card-title {
+  color: #DC3545; /* Red card title */
+}
+
+.btn-primary {
+  background-color: #DC3545; /* Red button */
+  border-color: #DC3545;
+}
+
+.btn-primary:hover {
+  background-color: #C82333; /* Darker red on hover */
+  border-color: #C82333;
+}
+
+.btn-success {
+  background-color: #DC3545; /* Red for save button */
+  border-color: #DC3545;
+}
+
+.btn-success:hover {
+  background-color: #C82333;
+  border-color: #C82333;
+}
+
+.btn-warning {
+  background-color: #FFFFFF; /* White edit button */
+  color: #DC3545; /* Red text */
+  border-color: #DC3545;
+}
+
+.btn-warning:hover {
+  background-color: #F8D7DA; /* Light red on hover */
+  color: #C82333;
+}
+
+.btn-secondary {
+  background-color: #FFFFFF; /* White cancel button */
+  color: #DC3545; /* Red text */
+  border-color: #DC3545;
+}
+
+.btn-secondary:hover {
+  background-color: #F8D7DA; /* Light red on hover */
+  color: #C82333;
+}
+
+.table thead th {
+  background-color: #DC3545; /* Red table header */
+  color: #FFFFFF; /* White text */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #F8D7DA; /* Light red for odd rows */
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+  background-color: #FFFFFF; /* White for even rows */
+}
+
+.form-control:focus {
+  border-color: #DC3545; /* Red border on focus */
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25); /* Red shadow */
+}
