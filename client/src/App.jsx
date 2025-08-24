@@ -3,16 +3,12 @@ import Home from './components/Home';
 import Dashboard from './components/Dashboard';
 import { ProjectProvider } from './context/ProjectContext';
 import Machinery from './components/Machinery';
-<<<<<<< HEAD
 import './App.css';
-=======
->>>>>>> origin/main
 
 function App() {
   return (
     <ProjectProvider>
       <Router>
-<<<<<<< HEAD
         <div className="min-vh-100">
           <nav className="navbar glass-navbar navbar-expand-lg">
             <div className="container-fluid">
@@ -39,20 +35,6 @@ function App() {
               <Route path="/dashboard/machinery/:projectId" element={<Machinery />} />
             </Routes>
           </main>
-=======
-        <div className="container-fluid">
-          <nav className="navbar navbar-expand-lg bg-danger">
-            <div className="navbar-nav">
-              <Link className="nav-link text-white" to="/">Home</Link>
-              <Link className="nav-link text-white" to="/dashboard">Dashboard</Link>
-            </div>
-          </nav>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/dashboard/machinery/:projectId" element={<Machinery />} />
-          </Routes>
->>>>>>> origin/main
         </div>
       </Router>
     </ProjectProvider>
