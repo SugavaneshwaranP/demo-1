@@ -260,16 +260,17 @@ function Machinery() {
               <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: '0 10px' }}>
                 <thead>
                   <tr style={{ background: 'linear-gradient(135deg, #2c3e50, #34495e)', color: '#fff', borderRadius: '10px' }}>
-                    <th style={{ padding: '12px', borderTopLeftRadius: '10px' }}>Type</th>
-                    <th style={{ padding: '12px' }}>Vehicle</th>
-                    <th style={{ padding: '12px' }}>Date</th>
-                    <th style={{ padding: '12px' }}>Start</th>
-                    <th style={{ padding: '12px' }}>End</th>
-                    <th style={{ padding: '12px' }}>Duration</th>
-                    <th style={{ padding: '12px' }}>Owner</th>
-                    <th style={{ padding: '12px' }}>Fuel Rate (₹)</th>
-                    <th style={{ padding: '12px' }}>Advance Pay (₹)</th>
-                    <th style={{ padding: '12px', borderTopRightRadius: '10px' }}>Actions</th>
+                    <th className="bg-danger" 
+                    style={{ padding: '12px', borderTopLeftRadius: '10px' }}>Type</th>
+                    <th className="bg-danger" style={{ padding: '12px' }}>Vehicle</th>
+                    <th className="bg-danger" style={{ padding: '12px' }}>Date</th>
+                    <th className="bg-danger" style={{ padding: '12px' }}>Start</th>
+                    <th className="bg-danger" style={{ padding: '12px' }}>End</th>
+                    <th className="bg-danger" style={{ padding: '12px' }}>Duration</th>
+                    <th className="bg-danger" style={{ padding: '12px' }}>Owner</th>
+                    <th className="bg-danger" style={{ padding: '12px' }}>Fuel Rate (₹)</th>
+                    <th className="bg-danger" style={{ padding: '12px' }}>Advance Pay (₹)</th>
+                    <th className="bg-danger" style={{ padding: '12px', borderTopRightRadius: '10px' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
