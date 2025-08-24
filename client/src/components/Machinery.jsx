@@ -9,13 +9,13 @@ function Machinery() {
       projectId: parseInt(projectId),
       type: 'Excavator',
       vehicleName: 'EXC-001',
-      dateOfEntry: '2025-08-23',
+      dateOfEntry: '2025-08-24',
       startHours: '08:00',
       endHours: '16:00',
       workDuration: '8h',
       owner: { name: 'John Doe', contact: '123-456-7890' },
-      fuelRate: 4.5,
-      advancePay: 100,
+      fuelRate: 350,
+      advancePay: 8000,
     },
   ]);
   const [machineryTypes, setMachineryTypes] = useState(['Excavator', 'Bulldozer', 'Crane', 'Loader']);
@@ -30,7 +30,7 @@ function Machinery() {
     fuelRate: '',
     advancePay: '',
   });
-  const [showAddType, setShowAddType] = useState(false);
+  const [showAddTypeModal, setShowAddTypeModal] = useState(false);
   const [newType, setNewType] = useState('');
   const [editingMachineryId, setEditingMachineryId] = useState(null);
   const [editMachineryForm, setEditMachineryForm] = useState({});
@@ -66,7 +66,7 @@ function Machinery() {
     if (newType && !machineryTypes.includes(newType)) {
       setMachineryTypes([...machineryTypes, newType]);
       setNewType('');
-      setShowAddType(false);
+      setShowAddTypeModal(false);
     }
   };
 
@@ -119,7 +119,7 @@ function Machinery() {
   };
 
   return (
-    <div className="container-fluid mt-4" style={{ fontFamily: 'Arial, sans-serif' }}>
+    <div className="container-fluid mt-4" style={{ fontFamily: 'Arial, sans-serif', position: 'relative' }}>
       <h1 className="text-center mb-4" style={{ color: '#2c3e50', fontWeight: 700, textTransform: 'uppercase' }}>Machinery Details</h1>
       <div className="row">
         <div className="col-md-12">
@@ -133,7 +133,7 @@ function Machinery() {
                     name="type"
                     value={newMachinery.type}
                     onChange={handleMachineryInputChange}
-                    style={{ width: '100', padding: '10px', borderRadius: '8px', border: '1px solid #ddd', background: '#fff', boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)' }}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #ddd', background: '#fff', boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)' }}
                   >
                     {machineryTypes.map((type) => (
                       <option key={type} value={type}>{type}</option>
@@ -141,26 +141,13 @@ function Machinery() {
                   </select>
                   <button
                     type="button"
-                    onClick={() => setShowAddType(true)}
+                    onClick={() => setShowAddTypeModal(true)}
                     style={{ marginTop: '5px', padding: '8px 15px', background: '#e74c3c', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'background 0.3s' }}
                     onMouseOver={(e) => (e.target.style.background = '#c0392b')}
                     onMouseOut={(e) => (e.target.style.background = '#e74c3c')}
                   >
                     Add New Type
                   </button>
-                  {showAddType && (
-                    <div style={{ marginTop: '10px' }}>
-                      <input
-                        type="text"
-                        value={newType}
-                        onChange={(e) => setNewType(e.target.value)}
-                        style={{ width: '70%', padding: '10px', borderRadius: '8px', border: '1px solid #ddd', marginRight: '10px' }}
-                      />
-                      <button onClick={addMachineryType} style={{ padding: '10px 15px', background: '#2ecc71', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>
-                        Save Type
-                      </button>
-                    </div>
-                  )}
                 </div>
                 <div style={{ flex: '1 1 200px', minWidth: '200px' }}>
                   <label style={{ color: '#34495e', fontWeight: 500 }}>Vehicle Unique Name</label>
@@ -219,7 +206,7 @@ function Machinery() {
                   />
                 </div>
                 <div style={{ flex: '1 1 200px', minWidth: '200px' }}>
-                  <label style={{ color: '#34495e', fontWeight: 500 }}>Fuel Rate ($/unit)</label>
+                  <label style={{ color: '#34495e', fontWeight: 500 }}>Fuel Rate (₹/unit)</label>
                   <input
                     type="number"
                     name="fuelRate"
@@ -229,7 +216,7 @@ function Machinery() {
                   />
                 </div>
                 <div style={{ flex: '1 1 200px', minWidth: '200px' }}>
-                  <label style={{ color: '#34495e', fontWeight: 500 }}>Advance/Beta Pay ($)</label>
+                  <label style={{ color: '#34495e', fontWeight: 500 }}>Advance/Beta Pay (₹)</label>
                   <input
                     type="number"
                     name="advancePay"
@@ -280,8 +267,8 @@ function Machinery() {
                     <th style={{ padding: '12px' }}>End</th>
                     <th style={{ padding: '12px' }}>Duration</th>
                     <th style={{ padding: '12px' }}>Owner</th>
-                    <th style={{ padding: '12px' }}>Fuel Rate ($)</th>
-                    <th style={{ padding: '12px' }}>Advance Pay ($)</th>
+                    <th style={{ padding: '12px' }}>Fuel Rate (₹)</th>
+                    <th style={{ padding: '12px' }}>Advance Pay (₹)</th>
                     <th style={{ padding: '12px', borderTopRightRadius: '10px' }}>Actions</th>
                   </tr>
                 </thead>
@@ -396,8 +383,8 @@ function Machinery() {
                             <td style={{ padding: '10px' }}>{item.endHours || 'N/A'}</td>
                             <td style={{ padding: '10px' }}>{item.workDuration}</td>
                             <td style={{ padding: '10px' }}>{item.owner.name}</td>
-                            <td style={{ padding: '10px' }}>{item.fuelRate}</td>
-                            <td style={{ padding: '10px' }}>{item.advancePay}</td>
+                            <td style={{ padding: '10px' }}>{item.fuelRate} ₹</td>
+                            <td style={{ padding: '10px' }}>{item.advancePay} ₹</td>
                             <td style={{ padding: '10px' }}>
                               <button
                                 onClick={() => startEditingMachinery(item)}
@@ -416,6 +403,67 @@ function Machinery() {
           </div>
         </div>
       </div>
+
+      {/* Add New Type Modal */}
+      {showAddTypeModal && (
+        <div style={{
+          position: 'fixed',
+          top: '0',
+          left: '0',
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000,
+        }}>
+          <div style={{
+            background: '#fff',
+            padding: '20px',
+            borderRadius: '15px',
+            boxShadow: '0 5px 20px rgba(0, 0, 0, 0.2)',
+            width: '400px',
+            animation: 'slideIn 0.3s ease-out',
+          }}>
+            <h4 style={{ color: '#e74c3c', fontWeight: 600, marginBottom: '15px' }}>Add New Machinery Type</h4>
+            <form onSubmit={addMachineryType} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <input
+                type="text"
+                value={newType}
+                onChange={(e) => setNewType(e.target.value)}
+                placeholder="Enter new type"
+                style={{ padding: '10px', borderRadius: '8px', border: '1px solid #ddd', width: '100%' }}
+                required
+              />
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                <button
+                  type="submit"
+                  style={{ padding: '10px 20px', background: '#2ecc71', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setShowAddTypeModal(false); setNewType(''); }}
+                  style={{ padding: '10px 20px', background: '#e74c3c', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      <style>
+        {`
+          @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+          }
+        `}
+      </style>
     </div>
   );
 }
